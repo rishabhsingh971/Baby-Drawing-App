@@ -327,7 +327,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 newDialog.dismiss();
                 saveDrawing();
                 paintView.startNew();
-                saveName = setSavePath();
+                saveName = setSaveName();
             }
         });
         noBtn.setOnClickListener(new View.OnClickListener() {
