@@ -1,0 +1,11 @@
+<resources>
+    <!-- Default screen margins, per the Android Design guidelines. -->
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>
+    <dimen name="brush">20dp</dimen>
+    <integer name="brush_size">20</integer>
+    <dimen name="icon_size">56dp</dimen>
+    <dimen name="endMargin">10dp</dimen>
+    <integer name="color_size">50</integer>
+
+</resources>

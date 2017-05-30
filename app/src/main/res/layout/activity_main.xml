@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_height="match_parent"
+    android:layout_width="match_parent"
+    android:background="@drawable/theme"
+    android:orientation="vertical"
+    tools:context=".MainActivity" >
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:orientation="horizontal">
+        <ImageButton
+            android:id="@+id/new_btn"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:contentDescription="@string/start_new"
+            android:background="#00FFFFFF"
+            android:layout_marginEnd="@dimen/endMargin"
+            android:layout_marginRight="@dimen/endMargin"
+            android:src="@mipmap/new_icon"/>
+        <ImageButton
+            android:id="@+id/erase_btn"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:layout_marginEnd="@dimen/endMargin"
+            android:layout_marginRight="@dimen/endMargin"
+            android:contentDescription="@string/erase"
+            android:background="@mipmap/eraser"
+            android:src="@mipmap/eraser"/>
+        <ImageButton
+            android:id="@+id/undo_btn"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:contentDescription="@string/undo"
+            android:layout_marginEnd="@dimen/endMargin"
+            android:layout_marginRight="@dimen/endMargin"
+            android:background="#00FFFFFF"
+            android:src="@mipmap/undo"/>
+        <ImageButton
+            android:id="@+id/redo_btn"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:contentDescription="@string/redo"
+            android:layout_marginEnd="@dimen/endMargin"
+            android:layout_marginRight="@dimen/endMargin"
+            android:background="#00FFFFFF"
+            android:src="@mipmap/redo"/>
+        <ImageButton
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            app:srcCompat="@mipmap/load"
+            android:layout_marginEnd="@dimen/endMargin"
+            android:layout_marginRight="@dimen/endMargin"
+            android:background="#00FFFFFF"
+            android:contentDescription="@string/load"
+            android:id="@+id/load1" />
+        <ImageButton
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            app:srcCompat="@mipmap/load"
+            android:layout_marginEnd="@dimen/endMargin"
+            android:layout_marginRight="@dimen/endMargin"
+            android:background="#00FFFFFF"
+            android:contentDescription="@string/load"
+            android:id="@+id/load2" />
+        <ImageButton
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            app:srcCompat="@mipmap/load"
+            android:layout_marginEnd="@dimen/endMargin"
+            android:layout_marginRight="@dimen/endMargin"
+            android:background="#00FFFFFF"
+            android:contentDescription="@string/load"
+            android:id="@+id/load3" />
+
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/paint_colors"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_gravity="center">
+
+        <ImageButton
+            android:id="@+id/rc"
+            android:layout_width="@dimen/icon_size"
+            android:layout_height="@dimen/icon_size"
+            android:layout_margin="2dp"
+            android:background="@mipmap/red"
+            android:contentDescription="@string/paint"
+            android:onClick="paintClicked"
+            android:src="@mipmap/red"
+            android:tag="#FFFF0000" />
+
+        <ImageButton
+            android:layout_width="@dimen/icon_size"
+            android:layout_height="@dimen/icon_size"
+            android:layout_margin="2dp"
+            android:background="@mipmap/yellow"
+            android:contentDescription="@string/paint"
+            android:onClick="paintClicked"
+            android:src="@mipmap/yellow"
+            android:tag="#FFFFCC00"
+            android:id="@+id/yc" />
+
+        <ImageButton
+            android:layout_width="@dimen/icon_size"
+            android:layout_height="@dimen/icon_size"
+            android:layout_margin="2dp"
+            android:background="@mipmap/green"
+            android:contentDescription="@string/paint"
+            android:onClick="paintClicked"
+            android:src="@mipmap/green"
+            android:tag="#32cd32"
+            android:id="@+id/gc" />
+
+        <ImageButton
+            android:layout_width="@dimen/icon_size"
+            android:layout_height="@dimen/icon_size"
+            android:layout_margin="2dp"
+            android:background="@mipmap/blue"
+            android:contentDescription="@string/paint"
+            android:onClick="paintClicked"
+            android:src="@mipmap/blue"
+            android:tag="#00bfff"
+            android:id="@+id/bc" />
+
+        <ImageButton
+            android:layout_width="@dimen/icon_size"
+            android:layout_height="@dimen/icon_size"
+            android:layout_margin="2dp"
+            android:background="@mipmap/pink"
+            android:contentDescription="@string/paint"
+            android:onClick="paintClicked"
+            android:src="@mipmap/pink"
+            android:tag="#FFFF00FF"
+            android:id="@+id/pc" />
+    </LinearLayout>
+
+    <com.india.apkcrew.babysdrawingapp.PaintView
+        android:id="@+id/drawing"
+        android:layout_width="fill_parent"
+        android:layout_height="0dp"
+        android:layout_marginBottom="3dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_marginTop="3dp"
+        android:layout_weight="1"
+        android:background="#FFFFFFFF" />
+</LinearLayout>
