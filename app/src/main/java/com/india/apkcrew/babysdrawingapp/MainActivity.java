@@ -35,17 +35,45 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
+/**
+ * The type Main activity.
+ */
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
     private final int REQUEST_EXTERNAL_STORAGE = 10;
     private PaintView paintView;
     private ImageButton currPaint, thumbNail1, thumbNail2, thumbNail3;
     private MediaPlayer fg_voice;
-    Animation rotate, moveRight, moveLeft, zoomIO, fadeIn, slideUD;
+    /**
+     * The Rotate.
+     */
+    Animation rotate, /**
+     * The Move right.
+     */
+    moveRight, /**
+     * The Move left.
+     */
+    moveLeft, /**
+     * The Zoom io.
+     */
+    zoomIO, /**
+     * The Fade in.
+     */
+    fadeIn, /**
+     * The Slide ud.
+     */
+    slideUD;
     private String saveName, savePath, prevFilePath[];
     private boolean paused = false;
     private int inActivityTime = 0;
+    /**
+     * The Context.
+     */
     final Context context = this;
+    /**
+     * The Album name.
+     */
     final String albumName = "Baby's Drawings";
+    final static String TAG = "TAG";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,6 +115,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         saveName = setSaveName();
         savePath = setSavePath();
         createThumbNail();
+        Log.e(TAG, "onCreate: savePath - " + savePath + " saveName" + saveName);
     }
 
     @Override
@@ -125,6 +154,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         return super.onOptionsItemSelected(item);
     }
 
+    /**
+     * The Handler.
+     */
     Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -178,6 +210,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     };
 
+    /**
+     * Auto save.
+     */
     public void autoSave() {
         if (!paused) {
             Runnable runnable = new Runnable() {
@@ -200,6 +235,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
 
+    /**
+     * Paint clicked.
+     *
+     * @param view the view
+     */
     public void paintClicked(View view) {
         paintView.drawingChanging = true;
         //use chosen color
@@ -328,6 +368,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 saveDrawing();
                 paintView.startNew();
                 saveName = setSaveName();
+                createThumbNail();
             }
         });
         noBtn.setOnClickListener(new View.OnClickListener() {
@@ -341,6 +382,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         newDialog.show();
     }
 
+    /**
+     * Eraser clicked.
+     *
+     * @param view the view
+     */
     void eraserClicked(View view) {
         startVoice(R.raw.erase);
         ImageButton imgView = (ImageButton) view;
@@ -365,13 +411,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             paintView.setDrawingCacheEnabled(true);
             paintView.setDrawingCacheQuality(View.DRAWING_CACHE_QUALITY_HIGH);
             Bitmap bitmap = paintView.getDrawingCache();
-            File pictureFile = getOutputMediaFile();
-            if (pictureFile == null) {
-                Toast unsavedToast = Toast.makeText(getApplicationContext(),
-                        "Oops! Image could not be saved. ", Toast.LENGTH_SHORT);
-                unsavedToast.show();
-                return;
-            }
+            File pictureFile = new File(savePath + File.separator + saveName);
             try {
                 FileOutputStream fos = new FileOutputStream(pictureFile);
                 bitmap.compress(Bitmap.CompressFormat.PNG, 100, fos);
@@ -388,6 +428,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         paintView.setDrawingCacheEnabled(false);
     }
 
+    /**
+     * Create thumb nail.
+     */
     public void createThumbNail() {
         if (savePath != null) {
             File files[] = new File(savePath).listFiles();
@@ -410,11 +453,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     }
                 }
                 Log.i("info", "createThumbNail: " + files.length);
-                try {
-                    Log.i("file", "createThumbNail: " + file1.getName() + " " + file2.getName() + " " + file3.getName());
-                } catch (Exception e) {
-                    Log.e("file", "createThumbNail: ", e);
-                }
+//                try {
+//                    Log.i("file", "createThumbNail: " + file1.getName() + " " + file2.getName() + " " + file3.getName());
+//                } catch (NullPointerException e) {
+//                    Log.e("file", "createThumbNail: ", e);
+//                }
 
                 if (file1 != null) {
                     prevFilePath[0] = file1.getAbsolutePath();
@@ -435,17 +478,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
-    @Nullable
-    private File getOutputMediaFile() {
-        // Create a media file name
-        savePath = setSavePath();
-        if (savePath != null) {
-            File mediaFile;
-            mediaFile = new File(savePath + File.separator + saveName);
-            return mediaFile;
-        }
-        return null;
-    }
+//    @Nullable
+//    private File getOutputMediaFile() {
+//        // Create a media file name
+//        savePath = setSavePath();
+//        if (savePath != null) {
+//            File mediaFile;
+//            mediaFile = new File(savePath + File.separator + saveName);
+//            return mediaFile;
+//        }
+//        return null;
+//    }
 
     private String setSaveName() {
         String timeStamp = new SimpleDateFormat("ddMMyy_kkmmss", Locale.getDefault()).format(new Date());
@@ -456,20 +499,28 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private String setSavePath() {
         int permissionCheck = ContextCompat.checkSelfPermission(this,
                 Manifest.permission.WRITE_EXTERNAL_STORAGE);
+        Log.e(TAG, "setSavePath: " + permissionCheck);
         // Here, thisActivity is the current activity
         if (permissionCheck != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this,
                     new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
                     REQUEST_EXTERNAL_STORAGE);
         } else {
+            Log.e(TAG, "setSavePath: " + isExternalStorageWritable());
             if (!isExternalStorageWritable()) {
                 return null;
             }
             File mediaStorageDir = new File(Environment.getExternalStoragePublicDirectory(
-                    Environment.DIRECTORY_PICTURES), albumName);
+                    Environment.DIRECTORY_PICTURES).getAbsolutePath(), albumName);
+            Log.e(TAG, "setSavePath: " + mediaStorageDir);
+            Log.e(TAG, "setSavePath: mediaStorageDir path - " + mediaStorageDir.getAbsolutePath());
             if (!mediaStorageDir.exists()) {
+                Log.e(TAG, "setSavePath: not exist " + mediaStorageDir);
                 if (!mediaStorageDir.mkdirs()) {
+                    Log.e(TAG, "setSavePath: cannot make " + mediaStorageDir);
                     return null;
+                } else {
+                    Log.e(TAG, "setSavePath: created " + mediaStorageDir);
                 }
             }
             return mediaStorageDir.getAbsolutePath();
@@ -484,23 +535,25 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 // If request is cancelled, the result arrays are empty.
                 if (grantResults.length > 0
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    saveDrawing();
                     // permission was granted
+                    saveDrawing();
 
                 } else {
+                    // permission denied
                     Toast unsavedToast = Toast.makeText(getApplicationContext(),
                             "Permission Denied! Image could not be saved.", Toast.LENGTH_SHORT);
                     unsavedToast.show();
-                    // permission denied, boo! Disable the
-                    // functionality that depends on this permission.
                 }
             }
-            // other 'case' lines to check for other
-            // permissions this app might request
         }
     }
 
-    /* Checks if external storage is available for read and write */
+    /**
+     * Is external storage writable boolean.
+     *
+     * @return the boolean
+     */
+/* Checks if external storage is available for read and write */
     public boolean isExternalStorageWritable() {
         String state = Environment.getExternalStorageState();
         return Environment.MEDIA_MOUNTED.equals(state);
@@ -513,6 +566,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 Environment.MEDIA_MOUNTED_READ_ONLY.equals(state);
     }*/
 
+    /**
+     * Start voice.
+     *
+     * @param voiceId the voice id
+     */
     void startVoice(int voiceId) {
         if (fg_voice != null) {
             fg_voice.release();
@@ -521,6 +579,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         fg_voice.start();
     }
 
+    /**
+     * Sets music.
+     *
+     * @param musicId the music id
+     */
     void setMusic(int musicId) {
         if (paintView.bg_music != null) {
             paintView.bg_music.release();

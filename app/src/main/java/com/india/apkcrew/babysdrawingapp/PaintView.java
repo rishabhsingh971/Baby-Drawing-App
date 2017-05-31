@@ -16,6 +16,9 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 
+/**
+ * The type Paint view.
+ */
 public class PaintView extends View {
     //drawing path
     private Path drawPath;
@@ -28,26 +31,58 @@ public class PaintView extends View {
     //canvas bitmap
     private Bitmap canvasBitmap;
     private boolean bitmapSet = false;
-    public boolean drawingChanged = false, drawingChanging = false;
+    /**
+     * The Drawing changed.
+     */
+    public boolean drawingChanged = false, /**
+     * The Drawing changing.
+     */
+    drawingChanging = false;
     private ArrayList<PathColorPair> paths = new ArrayList<>();
     private ArrayList<PathColorPair> undonePaths = new ArrayList<>();
-    public MediaPlayer bg_music, fg_voice;
+    /**
+     * The Bg music.
+     */
+    public MediaPlayer bg_music;
 
     private class PathColorPair {
+        /**
+         * The Path.
+         */
         Path path;
+        /**
+         * The Color.
+         */
         int color;
 
+        /**
+         * Instantiates a new Path color pair.
+         *
+         * @param path  the path
+         * @param color the color
+         */
         PathColorPair(Path path, int color) {
             this.path = path;
             this.color = color;
         }
 
+        /**
+         * Instantiates a new Path color pair.
+         *
+         * @param other the other
+         */
         PathColorPair(PathColorPair other) {
             this.path = other.path;
             this.color = other.color;
         }
     }
 
+    /**
+     * Instantiates a new Paint view.
+     *
+     * @param context the context
+     * @param attrs   the attrs
+     */
     public PaintView(Context context, AttributeSet attrs) {
         super(context, attrs);
         drawPath = new Path();
@@ -62,10 +97,6 @@ public class PaintView extends View {
         drawPaint.setStrokeJoin(Paint.Join.ROUND);
         drawPaint.setStrokeCap(Paint.Cap.ROUND);
         drawPaint.setColor(paintColor);
-//        undo_voice = MediaPlayer.create(context, R.raw.undo);
-//        redo_voice = MediaPlayer.create(context, R.raw.redo);
-//        no_undo_voice = MediaPlayer.create(context, R.raw.noundo);
-//        no_redo_voice = MediaPlayer.create(context, R.raw.noredo);
     }
 
     @Override
@@ -76,6 +107,11 @@ public class PaintView extends View {
         drawCanvas = new Canvas(canvasBitmap);
     }
 
+    /**
+     * Sets color.
+     *
+     * @param newColor the new color
+     */
     public void setColor(String newColor) {
         //set color
         invalidate();
@@ -83,6 +119,11 @@ public class PaintView extends View {
         drawPaint.setColor(paintColor);
     }
 
+    /**
+     * Sets erase.
+     *
+     * @param isErase the is erase
+     */
     public void setErase(boolean isErase) {
         if (isErase) {
             paintColor = Color.WHITE;
@@ -90,6 +131,9 @@ public class PaintView extends View {
         }
     }
 
+    /**
+     * Start new.
+     */
     public void startNew() {
         bitmapSet = false;
         paths.clear();
@@ -97,6 +141,11 @@ public class PaintView extends View {
         invalidate();
     }
 
+    /**
+     * Sets bit map.
+     *
+     * @param fileName the file name
+     */
     public void setBitMap(String fileName) {
 //        startNew();
         paths.clear();
@@ -139,14 +188,27 @@ public class PaintView extends View {
         drawingChanged = true;
     }
 
+    /**
+     * Can undo boolean.
+     *
+     * @return the boolean
+     */
     boolean canUndo() {
         return paths.size() > 0;
     }
 
+    /**
+     * Can redo boolean.
+     *
+     * @return the boolean
+     */
     boolean canRedo() {
         return undonePaths.size() > 0;
     }
 
+    /**
+     * On click undo.
+     */
     public void onClickUndo() {
         if (canUndo()) {
             undonePaths.add(new PathColorPair(paths.remove(paths.size() - 1)));
@@ -158,6 +220,9 @@ public class PaintView extends View {
         }
     }
 
+    /**
+     * On click redo.
+     */
     public void onClickRedo() {
         if (canRedo()) {
             paths.add(new PathColorPair(undonePaths.remove(undonePaths.size() - 1)));
@@ -207,11 +272,4 @@ public class PaintView extends View {
         invalidate();
         return true;
     }
-//    void startVoice(int voiceId) {
-//        if(fg_voice!=null) {
-//            fg_voice.release();
-//        }
-//        fg_voice = MediaPlayer.create(getContext(), voiceId);
-//        fg_voice.start();
-//    }
 }
