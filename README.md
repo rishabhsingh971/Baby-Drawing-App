@@ -10,5 +10,9 @@ Baby's Drawing App is a simple drawing app. Two year old and older children can 
 <img src="screenshots/Screenshot4.png" height="30%" width="30%">&nbsp;
 <img src="screenshots/Screenshot5.png" height="30%" width="30%">&nbsp;
 
+## Published Articles
+- [Report](published%20article/Paper.pdf)
+- [More Info](published%20article/Supporting%20Information.pdf)
+
 ## Contributors
 This application is made by developed by [Rishabh Singh](https://github.com/rishabh-smpx), Ravi Kumar, [Ravi Prakash](https://github.com/ravip18596), Robin Ratan under the guidance of Ms. Savita Yadav and Dr. Pinaki Chakraborty.
